@@ -1,695 +1,501 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models">
+  <meta name="description" content="DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models">
   <meta name="keywords" content="DeepPersona, Synthetic Personas, LLM Personalization, Human Attribute Taxonomy, AI Personalization, Social Simulation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models</title>
 
-  <!-- Favicon removed as requested -->
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="icon" href="./assets/logos/agentflow.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
-  <style>
-    .hidden {
-        display: none;
-    }
-    /* 减少部分之间的间距 */
-    .section {
-        padding: 0.2rem 1.5rem;
-    }
-    /* 减少标题与内容的间距 */
-    .title {
-        margin-bottom: 0.2rem !important;
-    }
-    /* 减少段落间距 */
-    p {
-        margin-bottom: 0.2rem !important;
-    }
-    .lang-switch {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 5px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .lang-btn {
-      background: none;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 15px;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-    .lang-btn.active {
-      background: #3273dc;
-      color: white;
-    }
-    .lang-btn:hover {
-      background: #f0f0f0;
-    }
-    .lang-btn.active:hover {
-      background: #2366d1;
-    }
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/tool_cards.css">
+  <link rel="stylesheet" href="./static/css/top_button.css">
+  <link rel="stylesheet" href="./static/css/navbar.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/case_visualization.css">
+  <link rel="stylesheet" href="./static/css/tool_cards_simplified.css">
+  <link rel="stylesheet" href="./static/css/formula_copy.css">
+  <link rel="stylesheet" href="./static/css/case_buttons.css">
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 5px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-    }
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
 
-    th, td {
-        text-align: left;
-        padding: 8px;
-    }
+  <!-- Add navbar.js script -->
+  <script src="./static/js/navbar.js"></script>
 
-    th {
-        background-color: #f2f2f2;
-        border-bottom: 2px solid #ddd;
-    }
+  <!-- Add MathJax -->
+  <script src="./static/js/mathjax.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    td:hover {background-color: #ffffff;}
-    
-    .leaderboard-label {
-      display: inline-block;
-      padding: 4px 8px;
-      margin: 2px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    
-    .columns {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
+  <!-- Add title animation script -->
+  <script src="./static/js/title_animation.js"></script>
 
-    .column {
-      flex: 1;
-      min-width: 100%;
-    }
+  <!-- Add formula copy script -->
+  <script src="./static/js/formula_copy.js"></script>
 
-    table {
-      width: 100%;
-      min-width: 100%;
-    }
+  <!-- Add case study script -->
+  <script src="./static/js/case_study.js?v=3"></script>
+  
+  <!-- Add profile loader script -->
+  <script src="./static/js/profile_loader.js?v=14"></script>
 
-    .content.has-text-justified {
-      text-align: justify;
-      font-size: 1.1rem;
-    }
-
-    .centered-footer {
-      text-align: center;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-
-    .hero .title {
-      color: white;
-    }
-
-    .section {
-      padding: 3rem 1.5rem;
-    }
-
-    .notification {
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .tabs {
-      margin-bottom: 1rem;
-    }
-    
-    .tab-content {
-      min-height: 200px;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      padding: 1rem;
-    }
-
-    .select select {
-      border-radius: 6px;
-      border: 2px solid #e0e0e0;
-      transition: border-color 0.3s ease;
-    }
-
-    .select select:focus {
-      border-color: #3273dc;
-      box-shadow: 0 0 0 3px rgba(50, 115, 220, 0.1);
-    }
-
-    .box {
-      border-radius: 8px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-
-    .publication-links {
-      margin-top: 1rem;
-    }
-
-    .publication-links .button {
-      margin: 0.2rem;
-    }
-
-    .navbar {
-      background-color: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-    }
-  </style>
 </head>
+
+
 <body>
 
-<!-- Language Switch -->
-<div class="lang-switch">
-  <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
-  <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
-</div>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      </div>
 
-<!-- Navigation bar removed as requested -->
+    </div>
+  </nav>
 
-<!-- Hero Section -->
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">
-            <span class="lang-en">DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models</span>
-            <span class="lang-zh hidden">DeepPersona：用于高度个性化语言模型的深度优先合成人格引擎</span>
-          </h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">Zhen Wang*,</span>
-            <span class="author-block">Yufan Zhou*,</span>
-            <span class="author-block">Zhongyan Luo,</span>
-            <span class="author-block">Adam Wood</span>
-            <span class="author-block">Man Yao</span>
-            <span class="author-block">Luoshang Pan</span>
-          </div>
-          
-          <div class="is-size-5 publication-authors">
-            <span class="lang-en">University of California San Diego,</span>
-            <span class="lang-en">Meta AI</span>
-            <span class="lang-zh hidden">加州大学圣地亚哥分校</span>
-          </div>
+  <!-- Burger Menu for Table of Contents -->
+  <button class="toc-burger" id="toc-burger" aria-label="Toggle table of contents">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-          <div class="is-size-5 publication-authors">
-            <span class="lang-en">*Equal contribution</span>
-            <span class="lang-zh hidden">*同等贡献</span>
-          </div>
-          
+  <div class="toc-wrapper" id="toc-wrapper">
+    <div class="toc-header">
+      <h4>Table of Contents</h4>
+      <button class="toc-close" id="toc-close" aria-label="Close table of contents">×</button>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#framework">Framework</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#BibTeX">BibTeX</a></li>
+    </ul>
+  </div>
+
+  <div class="toc-overlay" id="toc-overlay"></div>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
           <div class="column has-text-centered">
-            <div class="publication-links">
-              <span class="link-block">
-                <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span class="lang-en">Paper</span>
-                  <span class="lang-zh hidden">论文</span>
-                </a>
+            <h1 class="title is-1 publication-title is-bold">
+              <img src="assets/logos/agentflow.png" style="width:1.8em; vertical-align: middle;" alt="Logo">
+              <span style="vertical-align: middle; position: relative; display: inline-block;">
+                <span id="agent-text" class="clickable-title"
+                      style="color: #000; position: relative; cursor: pointer;">Deep</span><span id="flow-text"
+                      style="color: #000; position: relative;">Persona</span>
               </span>
-              <span class="link-block">
-                <a href="https://github.com/thzva/Deeppersona" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fab fa-github"></i></span>
-                  <span class="lang-en">Code</span>
-                  <span class="lang-zh hidden">代码</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://huggingface.co/spaces/THzva/deeppersona-experience" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><p style="font-size:18px">🤗</p></span>
-                  <span class="lang-en">Dataset</span>
-                  <span class="lang-zh hidden">数据集</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="ai ai-arxiv"></i></span>
-                  <span>arXiv</span>
-                </a>
-              </span>
+            </h1>
+            <h2 class="subtitle is-3 publication-subtitle">
+              A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models
+            </h2>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://zhenwang9102.github.io/" target="_blank">Zhen Wang</a><sup>*1</sup>,</span>
+              <span class="author-block">
+                <a href="https://thzva.github.io/homapage/" target="_blank">Yufan Zhou</a><sup>*2</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Zhongyan Luo</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://lyumanshanye.github.io/homepage/">Lyumanshan Ye</a><sup>3</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Adam Wood</a><sup>4</sup>,</span>
+              <span class="author-block">
+                <a href="https://denison.edu/people/man-manda-yao">Man Yao</a><sup>5</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/panluoshang/">Luoshang Pan</a><sup>†6</sup></span>
             </div>
+
+            <div class="is-size-5 publication-authors" style="margin-top: 1rem;">
+              <span class="author-block"><sup>1</sup>University of California San Diego, </span>
+              <span class="author-block"><sup>2</sup>KU Leuven, </span>
+              <span class="author-block"><sup>3</sup>Shanghai Jiao Tong University, </span><br>
+              <span class="author-block"><sup>4</sup>University of Michigan, </span>
+              <span class="author-block"><sup>5</sup>Denison University, </span>
+              <span class="author-block"><sup>6</sup>Meta</span>
+            </div>
+            
+            <div class="is-size-5 publication-authors" style="margin-top: 0.5rem;">
+              <span class="paper-block" style="margin-right: 20px;"><b>* Equal Contribution</b></span>
+              <span class="paper-block"><b>† Corresponding Author</b></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper Link with PDF icon -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- arXiv link -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/thzva/Deeppersona"
+                    class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Dataset Link. -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/datasets/THzva/deeppersona_dataset"
+                    class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+                <!-- Demo Link with Gradio icon -->
+                <span class="link-block">
+                  <a href="#"
+                    class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <img src="assets/logos/gradio.svg" width="18" height="18" style="vertical-align: middle;" alt="Gradio">
+                    </span>
+                    <span>Demo</span>
+                  </a>
+                </span>
+                <!-- X (Twitter) Link -->
+                <span class="link-block">
+                  <a href="#"
+                    class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <img src="assets/logos/x.svg" width="18" height="18" style="vertical-align: middle;" alt="X">
+                    </span>
+                    <span>Media</span>
+                  </a>
+                </span>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Framework Overview -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-        <div class="content has-text-centered">
-          <img src="static/Overview.png" style="width: 100%; border-radius: 8px;" alt="Framework Overview"/>
+  <!-- Teaser Section -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="columns" style="margin-bottom: 2rem; column-gap: 0;">
+        <div class="column is-6" style="padding: 0;">
+          <img src="static/images/domain_distribution.png" width="90%" class="hover-float" alt="Domain Distribution" style="display: block;">
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Abstract Section -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">
-          <span class="lang-en">🚀 Brief Introduction</span>
-          <span class="lang-zh hidden">🚀 简要介绍</span>
-        </h2>
-        <div class="content has-text-justified">
-          <p class="lang-en">
-            Large-scale studies that simulate humans by instilling personas into language models have begun informing personalization, social-science, and human-AI alignment research. However, existing synthetic personas comprise shallow, manually-defined attributes, severely limiting their realism and ability to capture the nuanced diversity of human identities. We propose <strong>DeepPersona</strong>, a novel generative engine for synthesizing highly detailed and customizable synthetic personas through algorithmically rigorous stages.
-          </p>
-          <p class="lang-zh hidden">
-            通过将人格注入语言模型来模拟人类的大规模研究已开始为个性化、社会科学和人工智能对齐研究提供信息。然而，现有的合成人格包含浅层的、手动定义的属性，严重限制了它们的真实性和捕捉人类身份细微多样性的能力。我们提出<strong>DeepPersona</strong>，一种新型生成引擎，通过算法严谨的阶段合成高度详细和可定制的合成人格。
-          </p>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DeepPersona Profile Generator Section -->
-<section class="section" style="padding: 2rem 1.5rem;">
-  <div class="container">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-4" style="margin-bottom: 0.5rem;">
-          <span class="lang-en">👤 Profile Generator</span>
-          <span class="lang-zh hidden">👤 个人资料生成器</span>
-        </h2>
-        <div class="content">
-          <div class="content has-text-justified" style="margin-bottom: 0.75rem; max-width: 70%; margin-left: auto; margin-right: auto;">
-            <p class="lang-en" style="font-size: 0.9rem; line-height: 1.4;">
-              Generate a detailed persona profile by entering basic information. Our AI will create a comprehensive user persona summary based on your inputs.
+        <div class="column is-6" style="padding: 0;">
+          <div style="text-align: left;">
+            <h3 class="title is-4" style="text-align: center; margin-bottom: 1.5rem; margin-top: 0; font-size: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <img src="static/images/tool.png" style="width: 2rem; height: 2rem; vertical-align: middle;" alt="Tool Icon">
+              A Toolkit, Not Just a Dataset
+            </h3>
+            <p style="font-size: 1.4rem; line-height: 1.5; margin-bottom: 2rem; text-align: justify;">
+              <b>DeepPersona</b> is a generative engine powered by the largest and continuously extensible human attribute taxonomy to date. Researchers can:
             </p>
-            <p class="lang-zh hidden" style="font-size: 0.9rem; line-height: 1.4;">
-              通过输入基本信息生成详细的人物角色。我们的AI将根据您的输入创建全面的用户角色摘要。
-            </p>
-          </div>
-
-          <!-- Category Image -->
-          <div class="box" style="border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); width: 70%; margin: 0 auto; padding: 0;">
-            <img src="static/demo.jpg" alt="DeepPersona Categories" style="width: 100%; height: auto; display: block;">
+            <ul style="font-size: 1.2rem; line-height: 1.7; list-style: none; padding-left: 0; margin-top: 0;">
+              <li style="margin-bottom: 0.4rem; padding-left: 1.5rem; position: relative;">
+                <span style="position: absolute; left: 0; color: #3273dc; font-weight: bold;">✓</span>
+                <b>Control anchor traits</b> to synthesize targeted cohorts
+              </li>
+              <li style="margin-bottom: 0.4rem; padding-left: 1.5rem; position: relative;">
+                <span style="position: absolute; left: 0; color: #3273dc; font-weight: bold;">✓</span>
+                <b>Bias depth</b> toward specific subtrees
+              </li>
+              <li style="margin-bottom: 0.4rem; padding-left: 1.5rem; position: relative;">
+                <span style="position: absolute; left: 0; color: #3273dc; font-weight: bold;">✓</span>
+                <b>Enhance existing shallow personas</b> with rich details
+              </li>
+              <li style="padding-left: 1.5rem; position: relative;">
+                <span style="position: absolute; left: 0; color: #3273dc; font-weight: bold;">✓</span>
+                <b>Scale to billions</b> of richly detailed profiles
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<style>
-@keyframes spinAround {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(359deg); }
-}
-</style>
+  <!-- Introduction -->
+  <section class="section" id="introduction" style="padding-top: 0.5rem; padding-bottom: 3rem;">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <img src="static/images/book.png" style="width: 2.5rem; height: 2.5rem;" alt="Book Icon">
+            Brief Introduction
+          </h2>
+          <div class="content has-text-justified">
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              Simulating human profiles by instilling personas into large language models (LLMs) is rapidly transforming research in personalization, social simulation, and human-AI alignment. However, most existing synthetic personas remain shallow and simplistic, capturing minimal attributes and failing to reflect the rich complexity and diversity of real human identities.
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              We introduce <b>DeepPersona</b>, a scalable generative engine for synthesizing narrative-complete synthetic personas through a two-stage, taxonomy-guided method. First, we algorithmically construct the largest-ever human-attribute taxonomy, comprising over <b>hundreds of hierarchically-organized attributes</b>, by systematically mining thousands of real user-ChatGPT conversations. Second, we progressively sample attributes from this taxonomy, conditionally generating coherent and realistic personas, averaging <b>hundreds of structured attributes</b> and roughly <b>1 MB of narrative text</b>, <b>two orders of magnitude deeper than prior works</b>.
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              Intrinsic evaluations confirm significant improvements in attribute diversity (<b>32% higher coverage</b>) and profile uniqueness (<b>44% greater</b>) compared to state-of-the-art baselines. Extrinsically, our personas enhance GPT-4.1-mini's personalized Q&A accuracy by <b>11.6%</b> average on ten metrics, and substantially narrow (by <b>32%</b>) the gap between simulated LLM "citizens" and authentic human responses in social surveys.
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              DeepPersona thus provides a rigorous, scalable, and privacy-free platform for high-fidelity human simulation and personalized AI research.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Introduction -->
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('personaForm');
-  const summaryDisplay = document.getElementById('summaryDisplay');
-  const loadingSpinner = document.getElementById('loadingSpinner');
-  const errorMessage = document.getElementById('errorMessage');
-  const placeholderMessage = document.getElementById('placeholderMessage');
-  
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Show loading spinner
-    loadingSpinner.style.display = 'block';
-    errorMessage.style.display = 'none';
-    summaryDisplay.style.display = 'none';
-    placeholderMessage.style.display = 'none';
-    
-    // Get form values
-    const age = document.getElementById('age').value;
-    const gender = document.getElementById('gender').value;
-    const occupation = document.getElementById('occupation').value;
-    const location = document.getElementById('location').value;
-    const personalValues = document.getElementById('personalValues').value;
-    const lifeAttitude = document.getElementById('lifeAttitude').value;
-    
-    // Simulate API call with timeout
-    setTimeout(() => {
-      // Hide loading spinner
-      loadingSpinner.style.display = 'none';
-      
-      // Generate a sample persona (in a real app, this would come from the API)
-      const persona = generateSamplePersona(age, gender, occupation, location, personalValues, lifeAttitude);
-      
-      // Display the persona
-      summaryDisplay.innerHTML = persona;
-      summaryDisplay.style.display = 'block';
-    }, 2000);
-  });
-  
-  function generateSamplePersona(age, gender, occupation, location, personalValues, lifeAttitude) {
-    // This is a simplified example - in a real application, this would be an API call
-    const pronouns = gender === 'male' ? {subject: 'he', object: 'him', possessive: 'his'} : 
-                    gender === 'female' ? {subject: 'she', object: 'her', possessive: 'her'} : 
-                    {subject: 'they', object: 'them', possessive: 'their'};
-    
-    return `<h5>Basic Information</h5>
-    <p><strong>Age:</strong> ${age}</p>
-    <p><strong>Gender:</strong> ${gender}</p>
-    <p><strong>Occupation:</strong> ${occupation}</p>
-    <p><strong>Location:</strong> ${location}</p>
-    
-    <h5>Personality Profile</h5>
-    <p>This ${age}-year-old ${gender} from ${location} works as a ${occupation}. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} values ${personalValues || 'personal growth and authenticity'} and approaches life with ${lifeAttitude || 'a positive and determined attitude'}.</p>
-    
-    <p>In ${pronouns.possessive} professional life, ${pronouns.subject} is known for being dedicated and resourceful. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} enjoys connecting with others who share similar interests and values.</p>
-    
-    <h5>Communication Style</h5>
-    <p>${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} tends to communicate in a ${gender === 'female' ? 'warm and empathetic' : gender === 'male' ? 'direct and straightforward' : 'thoughtful and inclusive'} manner, often focusing on ${age < 30 ? 'new ideas and possibilities' : 'practical solutions and experiences'}.</p>`;
-  }
-});
-</script>
+  <!-- Framework Section -->
+  <section class="section" id="framework" style="padding-top: 0.5rem;">
+    <div class="container" style="margin-bottom: 2vh;">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3"><b>DeepPersona</b> Framework</h2>
 
-<!-- Methodology Section -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">
-          <span class="lang-en">🔬 Methodology</span>
-          <span class="lang-zh hidden">🔬 方法论</span>
-        </h2>
-        <div class="content has-text-justified">
-          <p class="lang-en">
-            We formulate the problem of synthetic persona generation as creating a narrative-complete persona with three key criteria: <strong>Depth</strong> (over 4700 attributes), <strong>Diversity</strong> (distribution approximating real humans), and <strong>Consistency</strong> (logically non-contradictory facts).
-          </p>
-          <p class="lang-zh hidden">
-            我们将合成人格生成问题定义为创建具有三个关键标准的叙事完整人格：<strong>深度</strong>（超过4700个属性），<strong>多样性</strong>（分布近似真实人类），以及<strong>一致性</strong>（逻辑上无矛盾的事实）。
-          </p>
+          <!-- Framework Figure -->
+          <div class="content has-text-centered" style="margin-bottom: 2rem;">
+            <img src="static/images/fig2_framework.png" width="100%" class="hover-float">
+            <p style="text-align: left;">
+              <b>DeepPersona Framework.</b> Our two-stage approach: (1) constructing a comprehensive human-attribute taxonomy from real conversations, and (2) progressively sampling attributes to generate deep, coherent personas.
+            </p>
+          </div>
           
-          <div>
-            <div style="margin-bottom: 2rem;">
-              <h3 class="title is-4">
-                <span class="lang-en">Problem Formulation & Overview</span>
-                <span class="lang-zh hidden">问题定义与概述</span>
-              </h3>
-              <div class="content">
-                <p class="lang-en">
-                  Our goal is to learn a <strong>synthesis function</strong> that returns a narrative-complete persona while respecting user-specified anchor attributes. We model persona generation as sampling from a structured distribution using:
-                </p>
-                <p class="lang-zh hidden">
-                  我们的目标是学习一个<strong>合成函数</strong>，在尊重用户指定的锚点属性的同时返回叙事完整的人格。我们将人格生成建模为从结构化分布中采样，使用：
-                </p>
-                <ul class="lang-en">
-                  <li><strong>An LLM</strong> that generates attribute values and free-text narrative</li>
-                  <li><strong>A universal attribute taxonomy</strong> that organizes the human-descriptive space</li>
-                  <li><strong>Attribute selection</strong> guided by taxonomy coverage</li>
-                  <li><strong>Value generation</strong> conditioned on evolving context for coherence</li>
-                </ul>
-                <ul class="lang-zh hidden">
-                  <li><strong>一个大语言模型</strong>生成属性值和自由文本叙述</li>
-                  <li><strong>通用属性分类法</strong>组织人类描述空间</li>
-                  <li><strong>属性选择</strong>由分类法覆盖率指导</li>
-                  <li><strong>值生成</strong>以演变的上下文为条件，确保连贯性</li>
-                </ul>
+          <div class="content has-text-justified" style="margin-top: 1.5rem;">
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              <b>Stage 1: Human-Attribute Taxonomy Construction.</b> We systematically mine 3,000 real-world user-ChatGPT dialogues from the Puffin dataset, identifying 1,224 high-quality personalized Q-A pairs. Using GPT-4o, we extract and hierarchically organize fine-grained attributes (e.g., <i>Lifestyle → Food Preference → Vegan</i>), then merge semantically similar branches. The resulting taxonomy contains <b>4,676 unique nodes</b> organized under 12 broad categories (Demographics, Health, Core Values, etc.).
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.6;">
+              <b>Stage 2: Progressive Attribute Sampling.</b> With the comprehensive taxonomy \(T\) in place, persona generation reduces to iteratively sampling from the structured distribution \(\mathbb{P}_{\theta,T}(P \mid S,k) = \prod_{i=1}^{k} \Pr(a_i \mid S, P_{\lt i}, T)\, \Pr_{\theta}(v_i \mid a_i, S, P_{\lt i}, T)\), where \(P = \{(a_i, v_i)\}_{i=1}^{k}\) and \(P_{\lt i} = \{(a_j, v_j)\}_{j \lt i}\). The attribute selector chooses the next node \(a_i\) from \(T\) and the LLM \(\theta\) generates its value \(v_i\). To achieve realistic depth and diversity, we first anchor a stable core of non-negotiable attributes (age, location, career, personal values, life attitude, hobbies), then use bias-free value assignment from predefined tables for demographics to avoid majority-culture defaults. The selector performs stochastic breadth-first traversal of \(T\), biasing toward long-tail branches to maximize diversity, while the LLM progressively fills each selected attribute conditioned on the evolving profile \(P_{\lt i}\) to ensure global coherence. A narrative summary \(\operatorname{Narr}(P)\) is produced as a byproduct of this sampling process.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Try DeepPersona Section -->
+  <section class="section" id="try-deeppersona" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem 0;">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-three-fifths">
+          <h2 class="title is-2" style="color: white; margin-bottom: 1.5rem; font-weight: 700;">Try DeepPersona</h2>
+          <p style="color: rgba(255,255,255,0.95); font-size: 1.2rem; margin-bottom: 2rem; line-height: 1.6;">
+            Experience DeepPersona firsthand! Generate personalized profiles and explore diverse personas through our interactive demo.
+          </p>
+          <a href="https://huggingface.co/spaces/THzva/deeppersona-experience" target="_blank" class="button is-large is-white" style="border-radius: 12px; font-weight: 600; padding: 1.5rem 3rem; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.3s;">
+            🚀 Launch Interactive Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profile Examples Section -->
+  <section class="section" id="methodology" style="padding-top: 1.5rem; padding-bottom: 5rem; background: linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%);">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- Section Title -->
+          <h2 class="title is-3" style="color: #2c3e50; margin-bottom: 1.2rem; font-weight: 700;">Profile Examples</h2>
+          <p class="subtitle is-5" style="color: #7f8c8d; margin-bottom: 3rem; white-space: nowrap;">
+            Explore diverse persona profiles generated across different countries and demographics
+          </p>
+
+          <!-- Selection Controls - Single Box with Two Sections -->
+          <div style="margin-bottom: 3rem; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div style="display: flex; gap: 2rem;">
+              <!-- Left: Country Selection -->
+              <div style="flex: 3;">
+                <h3 class="title is-3" style="color: #2c3e50; margin-bottom: 1.5rem; font-weight: 700; text-align: center;">Select a Country</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                  <!-- First Row: 4 buttons -->
+                  <div style="display: flex; gap: 0.7rem;">
+                    <button class="button is-large case-btn is-primary" data-case="1" data-country="china" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇨🇳 China</button>
+                    <button class="button is-large case-btn" data-case="2" data-country="usa" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇺🇸 USA</button>
+                    <button class="button is-large case-btn" data-case="3" data-country="japan" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇯🇵 Japan</button>
+                    <button class="button is-large case-btn" data-case="4" data-country="germany" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇩🇪 Germany</button>
+                  </div>
+                  <!-- Second Row: 3 buttons -->
+                  <div style="display: flex; gap: 0.7rem;">
+                    <button class="button is-large case-btn" data-case="5" data-country="india" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇮🇳 India</button>
+                    <button class="button is-large case-btn" data-case="6" data-country="kenya" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇰🇪 Kenya</button>
+                    <button class="button is-large case-btn" data-case="7" data-country="argentina" style="flex: 1; border-radius: 14px; font-weight: 600; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; padding: 1.5rem 1rem; font-size: 1.3rem;">🇦🇷 Argentina</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Profile Selection (Compact) -->
+              <div style="flex: 1.8; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);">
+                <h3 class="title is-4" style="color: white; text-align: center; margin-bottom: 1rem; font-weight: 700;">Select Profile</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                  <button class="button is-small question-case-btn active-case" data-case-num="1" style="background: rgba(255,255,255,0.95); border-radius: 10px; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; color: #667eea; font-size: 1rem; padding: 0.7rem 0.4rem;">Profile 1</button>
+                  <button class="button is-small question-case-btn" data-case-num="2" style="background: rgba(255,255,255,0.95); border-radius: 10px; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; color: #667eea; font-size: 1rem; padding: 0.7rem 0.4rem;">Profile 2</button>
+                  <button class="button is-small question-case-btn" data-case-num="3" style="background: rgba(255,255,255,0.95); border-radius: 10px; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; color: #667eea; font-size: 1rem; padding: 0.7rem 0.4rem;">Profile 3</button>
+                  <button class="button is-small question-case-btn" data-case-num="4" style="background: rgba(255,255,255,0.95); border-radius: 10px; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; color: #667eea; font-size: 1rem; padding: 0.7rem 0.4rem;">Profile 4</button>
+                  <button class="button is-small question-case-btn" data-case-num="5" style="background: rgba(255,255,255,0.95); border-radius: 10px; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; color: #667eea; font-size: 1rem; padding: 0.7rem 0.4rem; grid-column: 1 / -1;">Profile 5</button>
+                </div>
               </div>
             </div>
-            <div>
-              <h3 class="title is-4">
-                <span class="lang-en">A Toolkit, Not Just a Dataset</span>
-                <span class="lang-zh hidden">不仅是数据集，更是工具包</span>
-              </h3>
-              <div class="content">
-                <p class="lang-en">
-                  DeepPersona is a generative engine powered by the largest and continuously extensible human attribute taxonomy to date. Researchers can:
-                </p>
-                <p class="lang-zh hidden">
-                  DeepPersona是一个生成引擎，由迄今为止最大且可持续扩展的人类属性分类法驱动。研究人员可以：
-                </p>
-                <ul class="lang-en">
-                  <li><strong>Control anchor traits</strong> to synthesize targeted cohorts</li>
-                  <li><strong>Bias depth</strong> toward specific subtrees</li>
-                  <li><strong>Enhance existing shallow personas</strong> with rich details</li>
-                  <li><strong>Scale to billions</strong> of richly detailed profiles</li>
-                </ul>
-                <ul class="lang-zh hidden">
-                  <li><strong>控制锚点特征</strong>合成目标群体</li>
-                  <li><strong>偏向深度</strong>针对特定子树</li>
-                  <li><strong>增强现有浅层人格</strong>添加丰富细节</li>
-                  <li><strong>扩展到数十亿</strong>详细的个人资料</li>
-                </ul>
+          </div>
+
+          <!-- Profile Content Area (Full Width) -->
+          <div id="case-details-container" class="box" style="background: white; padding: 1rem 1.5rem 1.5rem 1.5rem; border-radius: 16px; min-height: 500px; border: 1px solid #e1e8ed; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
+            <h4 class="title is-4" id="case-title" style="color: #2c3e50; text-align: center; border-bottom: 2px solid #667eea; padding-top: 0.3rem; padding-bottom: 0.5rem; margin-bottom: 0.5rem; font-size: 1.6rem; font-weight: 700;">
+              China Profile 1
+            </h4>
+            <div id="case-content" style="line-height: 1.6; color: #34495e; font-size: 1rem; text-align: justify;">
+              <p style="text-align: center; color: #7f8c8d;">Loading profile data...</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="section" id="results">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Experimental Results</h2>
+          <h3 class="title is-4">Main Results</h3>
+          <div class="content has-text-justified">
+            <p>
+              We benchmark <b>DeepPersona</b> on three complementary axes to verify that profiles are <i>deep, distinct, and useful</i>: (i) intrinsic quality, (ii) LLM personalization, and (iii) social simulation. Together, these evaluations assess whether <b>DeepPersona</b> truly advances synthetic users from verbose text to research-ready human proxies.
+            </p>
+
+            <div id="main-results-carousel" class="carousel results-carousel">
+              <div class="box m-5">
+                <div class="content has-text-centered">
+                  <img src="static/images/result1.png" width="100%">
+                  <p><b>Result Figure 1.</b> Comparison of DeepPersona with Cultural Prompting and OpenCharacter across six countries.Lower values on four statistical metrics (KS, Wasserstein, JS Divergence, Mean Diff.) indicate closer alignment with real human survey responses.DeepPersona consistently achieves the lowest distances (highlighted in green), showing superior realism and cultural fidelity.</p>
+                </div>
+              </div>
+
+              <div class="box m-5">
+                <div class="content has-text-centered">
+                  <img src="static/images/result2.png" width="100%">
+                  <p><b>Result Figure 2.</b> Comparison across countries shows that DeepPersona consistently attains the lowest KS, Wasserstein, JS Divergence, and Mean Difference values, indicating superior alignment with real human personality distributions and enhanced psychological fidelity.</p>
+                </div>
+              </div>
+
+              <div class="box m-5">
+                <div class="content has-text-centered">
+                  <img src="static/images/result3.png" width="100%">
+                  <p><b>Result Figure 3.</b>  Intrinsic comparisons show that DeepPersona substantially outperforms prior baselines (PersonaHub and OpenCharacter) across all metrics. It achieves the highest mean number of attributes (50.92), indicating far greater persona depth, along with markedly higher uniqueness (4.12) and actionability potential (5.00), reflecting richer diversity and stronger utility for downstream personalization tasks.</p>
+                </div>
+              </div>
+
+              <div class="box m-5">
+                <div class="content has-text-centered">
+                  <img src="static/images/result4.png" width="100%">
+                  <p><b>Result Figure 4.</b>  Comparison of persona modeling methods on World Values Survey responses from Germany. Lower scores across KS, Wasserstein, JS Divergence, and Mean Difference indicate better alignment with real human distributions. DeepPersona consistently achieves the lowest values across all backbone models (DeepSeek-v3, GPT-4o-mini, GPT-4.1, Gemini-2.5-Flash), confirming its robustness, generalizability, and superior fidelity in simulating authentic social behaviors.</p>
+                </div>
+              </div>
+
+              <div class="box m-5">
+                <div class="content has-text-centered">
+                  <img src="static/images/result5.png" width="100%">
+                  <p><b>Result Figure 5.</b>Radar plots compare DeepPersona with PersonaHub and OpenCharacter across ten personalization metrics, including Personalization Fit, Attribute Coverage, Depth, Justification, and Engagement. Evaluations were conducted under multiple responder–evaluator settings (GPT-4.1-mini, GPT-4.1, GPT-4o, and Gemini-2.5-Flash). DeepPersona consistently achieves the highest overall scores, demonstrating stronger personalization fit, richer contextual grounding, and higher response diversity and actionability across all model configurations.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- Contact Section -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">
-          <span class="lang-en">📬 Contact</span>
-          <span class="lang-zh hidden">📬 联系方式</span>
-        </h2>
-        <div class="content has-text-justified">
-          <p class="lang-en">
-            If you have any questions regarding DeepPersona, feel free to reach out to us via email at <a href="mailto:zhouyufan365@gmail.com">zhouyufan365@gmail.com</a> or directly submit a <a href="https://github.com/thzva/Deeppersona/issues">github issue</a>.
-          </p>
-          <p class="lang-zh hidden">
-            如果您对DeepPersona有任何问题，请随时通过电子邮件<a href="mailto:zhouyufan365@gmail.com">zhouyufan365@gmail.com</a>联系我们，或直接提交<a href="https://github.com/thzva/Deeppersona/issues">github issue</a>。
-          </p>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact" style="padding-bottom: 1rem;">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Contact</h2>
+          <div class="content has-text-justified">
+            <p style="font-size: 1.1rem;">
+              If you have any questions regarding DeepPersona, feel free to reach out to us via email at <a href="mailto:zhouyufan365@gmail.com">zhouyufan365@gmail.com</a> or directly submit a <a href="https://github.com/thzva/Deeppersona/issues">GitHub issue</a>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- BibTeX Section -->
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">
-      <span class="lang-en">BibTeX</span>
-      <span class="lang-zh hidden">引用格式</span>
-    </h2>
-    <pre><code>@article{wang2025deeppersona,
-  title={DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models},
-  author={Zhen Wang and Yufan Zhou and Zhongyan Luo and Adam Wood and Man Yao and Luoshang Pan},
-  journal={arXiv preprint},
-  year={2025}
+  </section>
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX" style="padding-top: 1rem;">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-2 has-text-centered">BibTeX</h2>
+      <pre><code>@article{wang2024deeppersona,
+    title={DeepPersona: A Depth-First Synthetic-Persona Engine for Highly Personalized Language Models},
+    author={Wang, Zhen and Zhou, Yufan and Luo, Zhongyan and Yao, Adam Wood Man and Pan, Liushang},
+    journal={arXiv preprint},
+    year={2024}
 }</code></pre>
-  </div>
-</section>
-<!-- Footer -->
-<footer class="footer centered-footer" style="padding: 1rem 1.5rem;">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-6">
-        <div class="content" style="margin-bottom: 0;">
-          <p class="lang-en">
-            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p class="lang-zh hidden">
-            本网站基于<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享4.0国际许可协议</a>授权。
-          </p>
-        </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          This website is adapted from <a href="https://agentflow.stanford.edu/" target="_blank">AgentFlow</a>, licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  function switchLanguage(lang) {
-    // Update button states
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.remove('active');
+  <script>
+    // Initialize main results carousel
+    bulmaCarousel.attach('#main-results-carousel', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      infinite: true,
+      autoplay: false,
+      navigation: true,
+      navigationKeys: true,
+      pagination: true
     });
-    event.target.classList.add('active');
-    
-    // Toggle language content
-    if (lang === 'en') {
-      document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
-      document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('hidden'));
-    } else {
-      document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.lang-zh').forEach(el => el.classList.remove('hidden'));
-    }
-  }
-
-  // Data Explorer functionality
-  let currentModelData = {};
-  let availableModels = [
-    { value: 'Google', display: 'Gemini Deep Research' },
-    { value: 'gpt-4o-search-preview', display: 'GPT-4o Search Preview' },
-    { value: 'Grok3deeper', display: 'Grok3 DeeperSearch' },
-    { value: 'Grok3', display: 'Grok3 DeepSearch' },
-    { value: 'OpenAI', display: 'OpenAI Deep Research' },
-    { value: 'Perplexity', display: 'Perplexity Deep Research' },
-    { value: 'sonar-reasoning-pro', display: 'Perplexity: Sonar Reasoning Pro' }
-  ];
-
-  function initializeDataExplorer() {
-    const modelSelect = document.getElementById('modelSelect');
-    
-    // Clear existing options except the first one
-    modelSelect.innerHTML = '<option value="">Choose a model...</option>';
-    
-    // Populate model dropdown
-    availableModels.forEach(model => {
-      const option = document.createElement('option');
-      option.value = model.value;
-      option.textContent = model.display;
-      modelSelect.appendChild(option);
-    });
-    
-    console.log('Data Explorer initialized with models:', availableModels.map(m => m.display));
-  }
-
-  async function loadModelData() {
-    const modelSelect = document.getElementById('modelSelect');
-    const questionSelect = document.getElementById('questionSelect');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const errorIndicator = document.getElementById('errorIndicator');
-    const dataDisplay = document.getElementById('dataDisplay');
-    
-    const selectedModel = modelSelect.value;
-    
-    if (!selectedModel) {
-      questionSelect.disabled = true;
-      questionSelect.innerHTML = '<option value="">First select a model...</option>';
-      dataDisplay.style.display = 'none';
-      return;
-    }
-
-    loadingIndicator.style.display = 'block';
-    errorIndicator.style.display = 'none';
-    dataDisplay.style.display = 'none';
-
-    try {
-      // Use a relative path that works from the current page location
-      const response = await fetch(`./static/data/user_data/${selectedModel}.json`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      currentModelData = data;
-      
-      // Populate question dropdown
-      questionSelect.innerHTML = '<option value="">Choose a question...</option>';
-      data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.id;
-        option.textContent = `ID ${item.id}`;
-        questionSelect.appendChild(option);
-      });
-      
-      questionSelect.disabled = false;
-      loadingIndicator.style.display = 'none';
-      
-    } catch (error) {
-      console.error('Error loading model data:', error);
-      loadingIndicator.style.display = 'none';
-      errorIndicator.style.display = 'block';
-      questionSelect.disabled = true;
-      questionSelect.innerHTML = '<option value="">Error loading data...</option>';
-    }
-  }
-
-  function loadQuestionData() {
-    const questionSelect = document.getElementById('questionSelect');
-    const dataDisplay = document.getElementById('dataDisplay');
-    const questionContent = document.getElementById('questionContent');
-    const responseContent = document.getElementById('responseContent');
-    const jsonContent = document.getElementById('jsonContent');
-    
-    const selectedId = parseInt(questionSelect.value);
-    
-    if (!selectedId) {
-      dataDisplay.style.display = 'none';
-      return;
-    }
-
-    const selectedData = currentModelData.find(item => item.id === selectedId);
-    
-    if (selectedData) {
-      // Display question
-      questionContent.innerHTML = `<div class="message"><div class="message-body">${formatText(selectedData.question || 'No question available')}</div></div>`;
-      
-      // Display response
-      responseContent.innerHTML = `<div class="message"><div class="message-body">${formatText(selectedData.response || 'No response available')}</div></div>`;
-      
-      // Display raw JSON
-      jsonContent.textContent = JSON.stringify(selectedData, null, 2);
-      
-      dataDisplay.style.display = 'block';
-    }
-  }
-
-  function formatText(text) {
-    if (!text) return 'No content available';
-    
-    // Basic formatting for better readability
-    return text
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/\n/g, '<br>')
-      .replace(/^(.*)$/, '<p>$1</p>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>');
-  }
-
-  function switchTab(tabName) {
-    // Hide all tab contents
-    document.querySelectorAll('.tab-content').forEach(tab => {
-      tab.style.display = 'none';
-    });
-    
-    // Remove active class from all tabs
-    document.querySelectorAll('.tabs li').forEach(tab => {
-      tab.classList.remove('is-active');
-    });
-    
-    // Show selected tab content
-    document.getElementById(tabName + 'Tab').style.display = 'block';
-    
-    // Add active class to selected tab
-    event.target.closest('li').classList.add('is-active');
-  }
-
-  // Initialize when page loads
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing...');
-    
-    // Wait a bit for DOM to be fully ready
-    setTimeout(() => {
-      try {
-        initializeDataExplorer();
-        console.log('Initialization completed successfully');
-      } catch (error) {
-        console.error('Error during initialization:', error);
-      }
-    }, 100);
-  });
-</script>
+  </script>
 
 </body>
 </html>

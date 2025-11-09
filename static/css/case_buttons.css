@@ -1,0 +1,51 @@
+/* Case Button Styles */
+.case-btn {
+  transition: all 0.3s ease;
+}
+
+.case-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
+}
+
+.case-btn.is-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: none !important;
+  color: white !important;
+}
+
+.case-btn:not(.is-primary) {
+  background: white !important;
+  border: 2px solid #667eea !important;
+  color: #667eea !important;
+}
+
+.case-btn:not(.is-primary):hover {
+  background: #f0f0ff !important;
+  border-color: #764ba2 !important;
+}
+
+/* Case Number Buttons in Question Box */
+.question-case-btn {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.question-case-btn:hover {
+  background: white !important;
+  border: 2px solid #357abd !important;
+  color: #357abd !important;
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3) !important;
+}
+
+.question-case-btn:active {
+  transform: translateX(8px) scale(0.98);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+.question-case-btn.active-case {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%) !important;
+  color: white !important;
+  border: 2px solid white !important;
+}
